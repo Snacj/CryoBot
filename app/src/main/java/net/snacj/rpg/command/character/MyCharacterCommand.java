@@ -10,8 +10,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
+/**
+ * This class is responsible for handling the my character command.
+ * It allows the user to see their character.
+ */
 public class MyCharacterCommand {
     static PostgreUtil dbUtil = new PostgreUtil();
+    /**
+     * This method executes the my character command.
+     * It allows the user to see their character.
+     * @param event
+     */
     public static void execute (SlashCommandInteractionEvent event){
         Member member = event.getMember();
         if(member == null) return;

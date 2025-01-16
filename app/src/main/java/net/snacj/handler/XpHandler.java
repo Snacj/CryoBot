@@ -9,15 +9,27 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+ * This class is responsible for handling the XP system.
+ * It keeps track of the time a user is active and rewards them with XP.
+ */
 public class XpHandler {
     private final Map<Long, Instant> startTimeMap = new HashMap<>();
     PostgreUtil dbUtil = new PostgreUtil();
+
+    /**
+     * @param member
+     */
     public void startCount(Member member) {
         Long userId = member.getIdLong();
         if(!startTimeMap.containsKey(userId)) {
             startTimeMap.put(userId, Instant.now());
         }
     }
+
+    /**
+     * @param member
+     */
     public void stopCount(Member member) {
         Long userId = member.getIdLong();
         Instant startTime = startTimeMap.remove(userId);

@@ -14,6 +14,10 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.snacj.util.LogConstants;
 
+/*
+ * This is the main class of the bot.
+ * It initializes the bot and registers the commands.
+ */
 public class MyBot {
     private static JDA jda;
     public static void main(String[] args) {
@@ -25,7 +29,7 @@ public class MyBot {
                  .disableCache(CacheFlag.EMOJI, CacheFlag.STICKER)
                  .setEnabledIntents(GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS))
                  .setStatus(OnlineStatus.ONLINE)
-                 .setActivity(Activity.customStatus("verteilt Bier."))
+                 .setActivity(Activity.customStatus("exploring Space."))
                  .addEventListeners(
                          new BotStartupListener(),
                          new WelcomeListener(),
@@ -35,6 +39,10 @@ public class MyBot {
                  .build();
          initializeCommands();
     }
+
+    /*
+     * This method initializes the commands.
+     */
     public static void initializeCommands() {
         try {
             String guildId = BotStartupListener.getGuildIdFuture().get();
@@ -44,16 +52,16 @@ public class MyBot {
             //jda.updateCommands().addCommands(
             guild.updateCommands().addCommands(
                     Commands.slash("rpgembed", "Displays RPG embed"),
-                    Commands.slash("mygold", "Shows your gold amount"),
-                    Commands.slash("coinflip", "Flip a coin for gold")
+                    Commands.slash("mycredits", "Shows your credits amount"),
+                    Commands.slash("coinflip", "Flip a coin for credits")
                             .addOptions(new OptionData(OptionType.STRING, "side", "Predict the Coinflip", true)
                                             .addChoice("Heads", "heads")
                                             .addChoice("Tails", "tails"),
-                                    new OptionData(OptionType.INTEGER, "bet", "Amount of gold to bet", true)),
+                                    new OptionData(OptionType.INTEGER, "bet", "Amount of credits to bet", true)),
 
-                    Commands.slash("addgold", "Admins can Add Gold")
+                    Commands.slash("addcredits", "Admins can Add Credits")
                             .addOption(OptionType.USER, "user", "Which user", true)
-                            .addOption(OptionType.INTEGER, "gold", "Amount of Gold to add.", true),
+                            .addOption(OptionType.INTEGER, "credits", "Amount of Credits to add.", true),
 
                     Commands.slash("changelocation", "Change Location to...")
                             .addOptions(new OptionData(OptionType.STRING, "location", "Choose desired Location", true)
@@ -69,25 +77,17 @@ public class MyBot {
                                     .addChoice("Light Beer", "lightbeer")),
 
                     Commands.slash("whereami", "Where am I?"),
-                    Commands.slash("dailygold", "Get daily 500 Gold!"),
+                    Commands.slash("dailycredits", "Get daily 500 Credits!"),
                     Commands.slash("createchar", "Create a Character for your Adventure!")
                             .addOptions(new OptionData(OptionType.STRING, "name", "Choose name for character!", true))
                             .addOptions(new OptionData(OptionType.STRING, "race", "Choose Race.", true)
-                                            .addChoice("Mensch", "Mensch")
-                                            .addChoice("Elf", "Elf")
-                                            .addChoice("Zwerg", "Zwerg")
-                                            .addChoice("Halbling", "Halbling")
-                                            .addChoice("Halbelf", "Halbelf")
-                                            .addChoice("Halbork", "Halbork")
-                                            .addChoice("Gnom", "Gnom")
-                                            .addChoice("Drachenbluetiger", "Drachenbluetiger")
-                                            .addChoice("Tiefling", "Tiefling")
+                                            .addChoice("Human", "Human")
                                     )
-                            .addOptions(new OptionData(OptionType.STRING, "class", "Choose Class.", true)
-                                            .addChoice("Krieger", "Krieger")
-                                            .addChoice("Magier", "Magier")
-                                            .addChoice("Dieb", "Dieb")
-                                            .addChoice("Priester", "Priester"),
+                            .addOptions(new OptionData(OptionType.STRING, "profession", "Choose Profession.", true)
+                                            .addChoice("Bounty Hunter", "Bounty Hunter")
+                                            .addChoice("Miner", "Miner")
+                                            .addChoice("Pilot", "Pilot")
+                                            .addChoice("Trader", "Trader"),
                             new OptionData(OptionType.INTEGER, "age", "Age of character", true)),
                     Commands.slash("mychar", "My Character"),
                     Commands.slash("isolde", "Play Isolde")
@@ -98,6 +98,10 @@ public class MyBot {
             e.printStackTrace();
         }
     }
+
+    /*
+     * This method returns the JDA instance.
+     */
     public static JDA getJda() {
         return jda;
     }

@@ -7,9 +7,17 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.snacj.util.LogConstants;
 
+/*
+ * This class is responsible for handling the role system.
+ * It updates the user's role based on their level.
+ */
 public class RoleHandler {
     PostgreUtil dbUtil = new PostgreUtil();
 
+    /*
+     * TODO THIS IS TO BE UPDATED
+     * This method updates the user's role based on their level.
+     */
     public void updateRole(Member member){
 
         Guild guild = BotStartupListener.getGuild();
@@ -41,6 +49,10 @@ public class RoleHandler {
             removeRole(guild, member, dorfbewohner);
         }
     }
+
+    /*
+     * This method removes a role from a user.
+     */
     public void removeRole(Guild guild, Member member, Role role) {
         if (member != null) {
             guild.removeRoleFromMember(member, role).queue();
@@ -49,6 +61,10 @@ public class RoleHandler {
             System.out.println( LogConstants.E + "Member not found.");
         }
     }
+
+    /*
+     * This method assigns a role to a user.
+     */
     public void assignRole(Guild guild, Member member, Role role) {
         if (member != null) {
             guild.addRoleToMember(member, role).queue();
@@ -57,13 +73,15 @@ public class RoleHandler {
             System.out.println( LogConstants.E + "Member not found.");
         }
     }
+
+    /*
+     * This method checks if a user is not an admin or mod.
+     */
     public boolean isNotAdminOrMod(Member member, Guild guild) {
         Role ritter = guild.getRoleById(715263117268877390L);
         Role koenig = guild.getRoleById(715280287776505947L);
         boolean admin = member.getRoles().contains(koenig);
         boolean mod = member.getRoles().contains(ritter);
         return !admin && !mod;
-
     }
-
 }

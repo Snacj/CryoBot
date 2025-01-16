@@ -12,10 +12,19 @@ import net.snacj.util.Scheduler;
 
 import java.util.concurrent.CompletableFuture;
 
+/*
+ * This class is responsible for listening to the startup of the bot.
+ * It initializes the database and sets up the scheduler.
+ */
 public class BotStartupListener extends ListenerAdapter {
     private static final CompletableFuture<String> guildIdFuture = new CompletableFuture<>();
     private static Guild guild;
     static PostgreUtil dbUtil = new PostgreUtil();
+
+    /*
+     * This method is called when the guild is ready.
+     * It initializes the database and sets up the scheduler.
+     */
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         System.out.println(LogConstants.K + "Guild is ready!");
@@ -39,15 +48,26 @@ public class BotStartupListener extends ListenerAdapter {
         Runnable task = BotStartupListener::daily;
         scheduler.scheduleDailyTask(task);
     }
+
+    /*
+     * This method resets the user location and daily credits.
+     */
     public static void daily () {
         dbUtil.resetUserLocation();
-        dbUtil.resetDailyGold();
+        dbUtil.resetDailyCredits();
     }
+
+    /*
+     * This method returns the guild.
+     */
     public static Guild getGuild() {
         return guild;
     }
+
+    /*
+     * This method returns the guildIdFuture.
+     */
     public static CompletableFuture<String> getGuildIdFuture() {
         return guildIdFuture;
     }
-
 }

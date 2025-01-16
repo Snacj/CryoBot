@@ -7,17 +7,26 @@ import net.snacj.util.LogConstants;
 
 import java.util.Objects;
 
+/**
+ * This class is responsible for handling the coinflip command.
+ * It allows the user to play a coinflip game.
+ */
 public class CoinflipCommand {
     static PostgreUtil dbUtil = new PostgreUtil();
 
+    /**
+     * This method executes the coinflip command.
+     * It allows the user to play a coinflip game.
+     * @param event
+     */
     public static void execute (SlashCommandInteractionEvent event) {
         Member member = event.getMember();
         assert member != null;
         long userId = member.getIdLong();
-        long currentGold = dbUtil.getGoldFromUser(userId);
+        long currentCredits = dbUtil.getCreditsFromUser(userId);
         int rand = (int)(Math.random() * 2);
         String seite = "";
-        int wonGold;
+        int wonCredits;
 
         if (rand == 0) {
             seite = "heads";
@@ -29,16 +38,16 @@ public class CoinflipCommand {
         String choice = Objects.requireNonNull(event.getOption("side")).getAsString();
         int bet = Objects.requireNonNull(event.getOption("bet")).getAsInt();
 
-        if (currentGold < bet) {
-            event.reply("Du hast nicht genug Gold!").queue();
+        if (currentCredits < bet) {
+            event.reply("You dont have enough credits!").queue();
         } else if (choice.equalsIgnoreCase(seite)) {
-            wonGold = bet;
-            dbUtil.updateUserGold(userId, wonGold);
-            event.reply("Du hast gewonnen! \nNeuer Goldbestand -> " + dbUtil.getGoldFromUser(userId) + " Gold.").queue();
+            wonCredits = bet;
+            dbUtil.updateUserCredits(userId, wonCredits);
+            event.reply("You win! \nCurrent Credits -> " + dbUtil.getCreditsFromUser(userId) + " Credits.").queue();
         } else {
-            wonGold = bet - (bet * 2);
-            dbUtil.updateUserGold(userId, wonGold);
-            event.reply("Du hast verloren! \nNeuer Goldbestand -> " + dbUtil.getGoldFromUser(userId) + " Gold.").queue();
+            wonCredits = bet - (bet * 2);
+            dbUtil.updateUserCredits(userId, wonCredits);
+            event.reply("You lost! \nCurrent Credits -> " + dbUtil.getCreditsFromUser(userId) + " Credits.").queue();
         }
     }
 }

@@ -7,8 +7,16 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 
 import java.awt.*;
 
+/**
+ * This class is responsible for handling the rpg embed command.
+ * It allows the user to see the rpg embed.
+ */
 public class RpgEmbedCommand {
-
+    /**
+     * This method executes the rpg embed command.
+     * It allows the user to see the rpg embed.
+     * @param event
+     */
     public static void execute(SlashCommandInteractionEvent event) {
         Member member = event.getMember();
         if (member == null) {
@@ -17,7 +25,8 @@ public class RpgEmbedCommand {
         }
         if (member.hasPermission(Permission.ADMINISTRATOR)) {
             EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.setTitle("Snacj's World RPG");
+            embedBuilder.setTitle("Orion Space Station");
+            embedBuilder.setThumbnail("https://thumbs.dreamstime.com/b/fantasy-space-station-generative-ai-high-quality-illustration-fantasy-space-station-generative-ai-284593955.jpg");
             embedBuilder.setColor(Color.GREEN);
             embedBuilder.setFooter("Powered by Snacj.com");
             embedBuilder.setDescription("This is Snacj's World, a RPG game inside of Discord.");

@@ -7,9 +7,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/*
+ * This class is responsible for handling the effects system.
+ * It schedules the removal of an effect after a certain amount of time.
+ */
 public class EffectHandler {
     PostgreUtil dbUtil = new PostgreUtil();
 
+    /*
+     * This method schedules the removal of an effect after a certain amount of time.
+     */
     public void scheduleExecution(long delay, TimeUnit timeUnit, long userId){
         System.out.println(LogConstants.K + "waiting for " + delay + " minutes...");
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -18,6 +25,10 @@ public class EffectHandler {
             scheduler.shutdown();
         }, delay, timeUnit);
     }
+
+    /*
+     * This method removes the effect from the user.
+     */
     public void removeEffect(long userId) {
         dbUtil.updateUserEffect(userId, "none");
     }

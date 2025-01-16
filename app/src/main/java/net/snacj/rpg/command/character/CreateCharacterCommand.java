@@ -8,8 +8,17 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * This class is responsible for handling the create character command.
+ * It allows the user to create a character.
+ */
 public class CreateCharacterCommand {
     static PostgreUtil dbUtil = new PostgreUtil();
+    /**
+     * This method executes the create character command.
+     * It allows the user to create a character.
+     * @param event
+     */
     public static void execute (SlashCommandInteractionEvent event) {
         Member member = event.getMember();
         if(member == null) return;
