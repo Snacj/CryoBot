@@ -4,28 +4,30 @@ package net.snacj.rpg.character;
  * This class represents a character in the RPG system.
  */
 public class character {
-    private final String race;
-    private final String klasse;
-    private final int age;
+    private String name;
+    private int age;
+    private String species;
+    private String rank;
+    private String profession;
+    private String shipAssignment;
+    private String location;
 
     /**
-     * This constructor creates a character with the
-     * specified age
+     * @param name
      * @param age
-     * @param race
-     * @param klasse
+     * @param species
+     * @param rank
+     * @param profession
+     * @param shipAssignment
+     * @param location
      */
-    public character(int age, String race, String klasse) {
+    public character(String name, int age, String species, String rank, String profession, String shipAssignment, String location) {
+        this.name = name;
         this.age = age;
-        this.race = race;
-        this.klasse = klasse;
-    }
-
-    public void attack () {
-
-    }
-
-    public void defend () {
-
+        this.species = species;
+        this.rank = rank;
+        this.profession = profession;
+        this.shipAssignment = shipAssignment;
+        this.location = location;
     }
 }

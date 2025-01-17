@@ -244,13 +244,17 @@ public class PostgreUtil {
     /*
      * This method retrieves the character of a user from the database.
      */
-    public String[] getChracterFromUser(long userId){
+    public String[] getCharacterFromUser(long userId){
         String[] character = {"", "", "", "", ""};
         String id;
         String name;
         String age;
-        String klasse;
-        String race;
+        String species;
+        String rank;
+        String profession;
+        String shipAssignment;
+        String location;
+
         String selectSQL = "SELECT * FROM character WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
@@ -260,13 +264,20 @@ public class PostgreUtil {
                     id = resultSet.getString("id");
                     name = resultSet.getString("name");
                     age = resultSet.getString("age");
-                    klasse = resultSet.getString("class");
-                    race = resultSet.getString("race");
+                    species = resultSet.getString("species");
+                    rank = resultSet.getString("rank");
+                    profession = resultSet.getString("profession");
+                    shipAssignment = resultSet.getString("shipAssignment");
+                    location = resultSet.getString("location");
+
                     character[0] = id;
                     character[1] = name;
                     character[2] = age;
-                    character[3] = klasse;
-                    character[4] = race;
+                    character[3] = species;
+                    character[4] = rank;
+                    character[5] = profession;
+                    character[6] = shipAssignment;
+                    character[7] = location;
                 }
             }
         } catch (SQLException e) {

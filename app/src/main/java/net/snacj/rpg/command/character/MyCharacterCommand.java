@@ -31,8 +31,11 @@ public class MyCharacterCommand {
         long id = Long.parseLong(character[0]);
         String name= character[1];
         int age = Integer.parseInt(character[2]);
-        String klasse = character[3];
-        String race = character[4];
+        String species = character[3];
+        String rank = character[4];
+        String profession = character[5];
+        String shipAssignment = character[6];
+        String location = character[7];
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle("Your Character:");
@@ -40,8 +43,11 @@ public class MyCharacterCommand {
         embedBuilder.setFooter("Powered by Snacj.com");
         embedBuilder.addField("Name:", character[1], false);
         embedBuilder.addField("Age:", character[2], false);
-        embedBuilder.addField("Class:", character[3], false);
-        embedBuilder.addField("Race:", character[4], false);
+        embedBuilder.addField("Species:", character[3], false);
+        embedBuilder.addField("Rank:", character[4], false);
+        embedBuilder.addField("Profession:", character[5], false);
+        embedBuilder.addField("Ship Assignment:", character[6], false);
+        embedBuilder.addField("Location:", character[7], false);
         event.deferReply().queue(hook -> {
             hook.editOriginalEmbeds(embedBuilder.build()).queue();
         });

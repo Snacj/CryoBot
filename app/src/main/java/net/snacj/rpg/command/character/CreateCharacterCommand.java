@@ -23,12 +23,15 @@ public class CreateCharacterCommand {
         Member member = event.getMember();
         if(member == null) return;
         long userId = member.getIdLong();
-        int age = Objects.requireNonNull(event.getOption("age")).getAsInt();
         String name = Objects.requireNonNull(event.getOption("name")).getAsString();
-        String race = Objects.requireNonNull(event.getOption("race")).getAsString();
-        String profession = Objects.requireNonNull(event.getOption("class")).getAsString();
+        int age = Objects.requireNonNull(event.getOption("age")).getAsInt();
+        String species = Objects.requireNonNull(event.getOption("species")).getAsString();
+        String rank = Objects.requireNonNull(event.getOption("rank")).getAsString();
+        String profession = Objects.requireNonNull(event.getOption("profession")).getAsString();
+        String shipAssignment = Objects.requireNonNull(event.getOption("ship-assignment")).getAsString();
+        String location = Objects.requireNonNull(event.getOption("location")).getAsString();
 
-        dbUtil.updateCharacter(userId, name, profession, race, age);
+        dbUtil.updateCharacter(userId, name, profession, species, age);
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(Color.GREEN);
@@ -36,8 +39,11 @@ public class CreateCharacterCommand {
         embedBuilder.setFooter("Powered by Snacj.com");
         embedBuilder.addField("Name:", name, false);
         embedBuilder.addField("Age:", String.valueOf(age), false);
+        embedBuilder.addField("Species:", species, false);
+        embedBuilder.addField("Rank:", rank, false);
         embedBuilder.addField("Profession:", profession, false);
-        embedBuilder.addField("Race:", race, false);
+        embedBuilder.addField("Ship Assignment:", shipAssignment, false);
+        embedBuilder.addField("Location:", location, false);
         event.deferReply().queue(hook -> {
             hook.editOriginalEmbeds(embedBuilder.build()).queue();
         });
