@@ -41,10 +41,10 @@ public class BuyDrinkOrFoodCommand {
                     dbUtil.updateUserCredits(userId, -7);
                     effect = "drunk";
                     dbUtil.updateUserEffect(userId, effect);
-                    event.reply("You drank some ale and are now drank!").queue();
+                    event.reply("You drank some Starfall Ale and are now drank!").queue();
                     effectHandler.scheduleExecution(5, TimeUnit.MINUTES, userId);
                 } else {
-                    event.reply("You dont have enough credits to buy that ale!\nIt costs 7 credits").queue();
+                    event.reply("You dont have enough credits to buy that Starfall Ale!\nIt costs 7 credits").queue();
                 }
             }
             case "strongale" -> {
@@ -52,10 +52,10 @@ public class BuyDrinkOrFoodCommand {
                     dbUtil.updateUserCredits(userId, -10);
                     effect = "drunk";
                     dbUtil.updateUserEffect(userId, effect);
-                    event.reply("You drank strong ale and are very drunk now!").queue();
+                    event.reply("You drank strong Starfall Ale and are very drunk now!").queue();
                     effectHandler.scheduleExecution(10, TimeUnit.MINUTES, userId);
                 } else {
-                    event.reply("You dont have enough credits to buy that ale!\nIt costs 10 credits").queue();
+                    event.reply("You dont have enough credits to buy that Starfall Ale!\nIt costs 10 credits").queue();
                 }
             }
             case "lightale" -> {
@@ -63,10 +63,10 @@ public class BuyDrinkOrFoodCommand {
                     dbUtil.updateUserCredits(userId, -5);
                     effect = "drunk";
                     dbUtil.updateUserEffect(userId, effect);
-                    event.reply("You drank light ale and are a bit drunk now!").queue();
+                    event.reply("You drank light Starfall Ale and are a bit drunk now!").queue();
                     effectHandler.scheduleExecution(1, TimeUnit.MINUTES, userId);
                 } else {
-                    event.reply("You dont have enough credits to buy that ale!\nIt costs 5 credits").queue();
+                    event.reply("You dont have enough credits to buy that Starfall Ale!\nIt costs 5 credits").queue();
                 }
             }
             default -> event.reply("This is not available at the moment!").queue();

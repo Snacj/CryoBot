@@ -26,9 +26,9 @@ public class CreateCharacterCommand {
         int age = Objects.requireNonNull(event.getOption("age")).getAsInt();
         String name = Objects.requireNonNull(event.getOption("name")).getAsString();
         String race = Objects.requireNonNull(event.getOption("race")).getAsString();
-        String klasse = Objects.requireNonNull(event.getOption("class")).getAsString();
+        String profession = Objects.requireNonNull(event.getOption("class")).getAsString();
 
-        dbUtil.updateCharacter(userId, name, klasse, race, age);
+        dbUtil.updateCharacter(userId, name, profession, race, age);
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(Color.GREEN);
@@ -36,7 +36,7 @@ public class CreateCharacterCommand {
         embedBuilder.setFooter("Powered by Snacj.com");
         embedBuilder.addField("Name:", name, false);
         embedBuilder.addField("Age:", String.valueOf(age), false);
-        embedBuilder.addField("Class:", klasse, false);
+        embedBuilder.addField("Profession:", profession, false);
         embedBuilder.addField("Race:", race, false);
         event.deferReply().queue(hook -> {
             hook.editOriginalEmbeds(embedBuilder.build()).queue();

@@ -65,16 +65,16 @@ public class MyBot {
 
                     Commands.slash("changelocation", "Change Location to...")
                             .addOptions(new OptionData(OptionType.STRING, "location", "Choose desired Location", true)
-                            .addChoice("Taverne", "Taverne")
-                            .addChoice("Bar", "Bar")
-                            .addChoice("Im Freien", "Im Freien")
-                            .addChoice("Arena", "Arena")),
+                            .addChoice("OSS: Medbay", "OSS: Medbay")
+                            .addChoice("OSS: Bar", "OSS: Bar")
+                            .addChoice("OSS: Hangar", "OSS: Hangar")
+                            .addChoice("OSS: Bridge", "OSS: Bridge")),
 
                     Commands.slash("buy", "Buy drinks or food at the bar")
                             .addOptions(new OptionData(OptionType.STRING, "drinkorfood", "Choose drink or food to buy", true)
-                                    .addChoice("Beer", "beer")
-                                    .addChoice("Strong Beer", "strongbeer")
-                                    .addChoice("Light Beer", "lightbeer")),
+                                    .addChoice("Starfall Ale", "ale")
+                                    .addChoice("Strong Starfall Ale", "strongale")
+                                    .addChoice("Light Starfall Ale", "lightale")),
 
                     Commands.slash("whereami", "Where am I?"),
                     Commands.slash("dailycredits", "Get daily 500 Credits!"),
