@@ -79,9 +79,8 @@ public class MyBot {
                     Commands.slash("whereami", "Where am I?"),
                     Commands.slash("dailycredits", "Get daily 500 Credits!"),
                     Commands.slash("createchar", "Create a Character for your Adventure!")
-                            .addOptions(new OptionData(OptionType.STRING, "name", "Choose name for character!", true))
-                            .addOptions(new OptionData(OptionType.STRING, "race", "Choose Race.", true)
-                                            .addChoice("Human", "Human")
+                            .addOptions(new OptionData(OptionType.STRING, "species", "Choose Species.", true)
+                                            .addChoice("Human", "Marsian")
                                     )
                             .addOptions(new OptionData(OptionType.STRING, "profession", "Choose Profession.", true)
                                             .addChoice("Bounty Hunter", "Bounty Hunter")

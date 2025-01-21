@@ -31,21 +31,6 @@ public class CreateCharacterCommand {
         String shipAssignment = Objects.requireNonNull(event.getOption("ship-assignment")).getAsString();
         String location = Objects.requireNonNull(event.getOption("location")).getAsString();
 
-        dbUtil.updateCharacter(userId, name, profession, species, age);
-
-        EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setColor(Color.GREEN);
-        embedBuilder.setTitle("Your Character:");
-        embedBuilder.setFooter("Powered by Snacj.com");
-        embedBuilder.addField("Name:", name, false);
-        embedBuilder.addField("Age:", String.valueOf(age), false);
-        embedBuilder.addField("Species:", species, false);
-        embedBuilder.addField("Rank:", rank, false);
-        embedBuilder.addField("Profession:", profession, false);
-        embedBuilder.addField("Ship Assignment:", shipAssignment, false);
-        embedBuilder.addField("Location:", location, false);
-        event.deferReply().queue(hook -> {
-            hook.editOriginalEmbeds(embedBuilder.build()).queue();
-        });
+        dbUtil.updateUser(userId, name, profession, species, age);
     }
 }

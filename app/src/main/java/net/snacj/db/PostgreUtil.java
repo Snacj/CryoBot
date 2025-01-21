@@ -19,7 +19,7 @@ public class PostgreUtil {
      */
     public void updateUserLevel(Long userId, int level) {
         System.out.println(LogConstants.I + "Executing update for user ID: " + userId + " with level " + level);
-        String updateSQL = "UPDATE Leveling SET level = ? WHERE id = ?";
+        String updateSQL = "UPDATE User SET level = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
             preparedStatement.setInt(1, level);
             preparedStatement.setLong(2, userId);
@@ -34,7 +34,7 @@ public class PostgreUtil {
      */
     public void updateUserTime(Long userId, long seconds) {
         System.out.println(LogConstants.I + "Executing update for user ID: " + userId + " with " + seconds + " seconds.");
-        String updateSQL = "UPDATE Leveling SET xp = xp + ? WHERE id = ?";
+        String updateSQL = "UPDATE User SET xp = xp + ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
             preparedStatement.setLong(1, seconds);
             preparedStatement.setLong(2, userId);
@@ -49,7 +49,7 @@ public class PostgreUtil {
      */
     public void updateUserCredits(Long userId, long credits) {
         System.out.println(LogConstants.I + "Executing update for user ID: " + userId + " with " + credits + " credits.");
-        String updateSQL = "UPDATE RPG SET credits = credits + ? WHERE id = ?";
+        String updateSQL = "UPDATE User SET credits = credits + ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
             preparedStatement.setLong(1, credits);
             preparedStatement.setLong(2, userId);
@@ -77,11 +77,11 @@ public class PostgreUtil {
     /*
      * This method updates the effect of a user in the database.
      */
-    public void updateUserEffect(Long userId, String effect) {
-        System.out.println(LogConstants.I + "Executing update for user ID: " + userId + " with " + effect);
-        String updateSQL = "UPDATE RPG SET effect = ? WHERE id = ?";
+    public void updateUserEffect(Long userId, String status) {
+        System.out.println(LogConstants.I + "Executing update for user ID: " + userId + " with " + status);
+        String updateSQL = "UPDATE User SET effect = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
-            preparedStatement.setString(1, effect);
+            preparedStatement.setString(1, status);
             preparedStatement.setLong(2, userId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -94,51 +94,13 @@ public class PostgreUtil {
      */
     public void updateDailyCredits(Long userId) {
         System.out.println(LogConstants.I + "Executing update for user ID: " + userId);
-        String updateSQL = "UPDATE RPG SET dailycredits = TRUE WHERE id = ?";
+        String updateSQL = "UPDATE Use SET dailycredits = TRUE WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
             preparedStatement.setLong(1, userId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    /*
-     * This method updates the character of a user in the database.
-     */
-    public void updateCharacter(Long userId, String name, String klasse, String race, int age) {
-        System.out.println(LogConstants.I + "Executing updcate for user ID: " + userId);
-        String updateSQL = "UPDATE character SET name = ?, class = ?, race = ?, age = ? WHERE id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
-            preparedStatement.setString(1, name);
-            preparedStatement.setString(2, klasse);
-            preparedStatement.setString(3, race);
-            preparedStatement.setInt(4, age);
-            preparedStatement.setLong(5, userId);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /*
-     * This method retrieves the level of a user from the database.
-     */
-    public int getLevelFromUser(long userId) {
-        int level = -1;
-        String selectSQL = "SELECT level FROM Leveling WHERE id = ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
-            preparedStatement.setLong(1, userId);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    level = resultSet.getInt("level");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return level;
     }
 
     /*
@@ -146,7 +108,7 @@ public class PostgreUtil {
      */
     public long getXpFromUser(long userId) {
         long xp = -1;
-        String selectSQL = "SELECT xp FROM Leveling WHERE id = ?";
+        String selectSQL = "SELECT xp FROM User WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
             preparedStatement.setLong(1, userId);
@@ -166,7 +128,7 @@ public class PostgreUtil {
      */
     public long getCreditsFromUser(long userId) {
         long credits = -1;
-        String selectSQL = "SELECT credits FROM RPG WHERE id = ?";
+        String selectSQL = "SELECT credits FROM User WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
             preparedStatement.setLong(1, userId);
@@ -186,7 +148,7 @@ public class PostgreUtil {
      */
     public String getLocationFromUser(long userId) {
         String location = "-1";
-        String selectSQL = "SELECT location FROM location WHERE id = ?";
+        String selectSQL = "SELECT location FROM User WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
             preparedStatement.setLong(1, userId);
@@ -205,20 +167,20 @@ public class PostgreUtil {
      * This method retrieves the effect of a user from the database.
      */
     public String getEffectFromUser(long userId) {
-        String effect = "-1";
-        String selectSQL = "SELECT effect FROM RPG WHERE id = ?";
+        String status = "-1";
+        String selectSQL = "SELECT status FROM User WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
             preparedStatement.setLong(1, userId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    effect = resultSet.getString("effect");
+                    status = resultSet.getString("status");
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return effect;
+        return status;
     }
 
     /*
@@ -249,13 +211,14 @@ public class PostgreUtil {
         String id;
         String name;
         String age;
+        String level;
         String species;
-        String rank;
         String profession;
+        String status;
         String shipAssignment;
         String location;
 
-        String selectSQL = "SELECT * FROM character WHERE id = ?";
+        String selectSQL = "SELECT * FROM User WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
             preparedStatement.setLong(1, userId);
@@ -264,20 +227,22 @@ public class PostgreUtil {
                     id = resultSet.getString("id");
                     name = resultSet.getString("name");
                     age = resultSet.getString("age");
+                    level = resultSet.getString("level");
                     species = resultSet.getString("species");
-                    rank = resultSet.getString("rank");
                     profession = resultSet.getString("profession");
+                    status = resultSet.getString("status");
                     shipAssignment = resultSet.getString("shipAssignment");
                     location = resultSet.getString("location");
 
                     character[0] = id;
                     character[1] = name;
                     character[2] = age;
-                    character[3] = species;
-                    character[4] = rank;
+                    character[3] = level;
+                    character[4] = species;
                     character[5] = profession;
-                    character[6] = shipAssignment;
-                    character[7] = location;
+                    character[6] = status;
+                    character[7] = shipAssignment;
+                    character[8] = location;
                 }
             }
         } catch (SQLException e) {
@@ -291,7 +256,7 @@ public class PostgreUtil {
      */
     public void resetUserLocation() {
         System.out.println(LogConstants.I + "Executing update for all users");
-        String updateSQL = "UPDATE location SET location = 'Taverne'";
+        String updateSQL = "UPDATE User SET location = 'Orion Space Station'";
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -304,7 +269,7 @@ public class PostgreUtil {
      */
     public void resetDailyCredits() {
         System.out.println(LogConstants.I + "Executing update for all users");
-        String updateSQL = "UPDATE rpg SET dailycredits = false";
+        String updateSQL = "UPDATE User SET dailycredits = false";
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

@@ -25,10 +25,10 @@ public class DailyCreditsCommand {
         boolean dailyCredits = dbUtil.getDailyCreditsFromUser(userId);
         dbUtil.updateDailyCredits(userId);
         if (dailyCredits) {
-            event.reply("Du hast dein Credits heute schon eingesammelt.\nVersuche es morgen erneut!").queue();
+            event.reply("You already collected your daily Credits.\nTry again tomorrow!").queue();
         } else {
             dbUtil.updateUserCredits(userId, 500);
-            event.reply("Du hast 500 Credits erhalten!").queue();
+            event.reply("You received 500 Credits!").queue();
         }
     }
 }

@@ -86,29 +86,13 @@ public class PostgreSQLConnection extends ListenerAdapter {
      * This method initializes the database with the necessary tables and data.
      */
     public void initDB(@NotNull GuildReadyEvent event) {
-        createTableIfNotExists(memberTable());
-        createTableIfNotExists(levelingTable());
-        createTableIfNotExists(locationTable());
-        createTableIfNotExists(rPGTable());
-        createTableIfNotExists(characterTable());
+        createTableIfNotExists(userTable());
 
         event.getJDA().getGuilds().forEach(guild -> guild.loadMembers().onSuccess(members -> {
-            String insertMemberSQL = "INSERT INTO Member (id, username, readname) VALUES (?, ?, ?) " +
-                    "ON CONFLICT (id) DO NOTHING";
-            String insertLevelingSQL = "INSERT INTO leveling (id) VALUES (?) " +
-                    "ON CONFLICT (id) DO NOTHING";
-            String insertRPGSQL = "INSERT INTO RPG (id) VALUES (?) " +
-                    "ON CONFLICT (id) DO NOTHING";
-            String insertLocationSQL = "INSERT INTO location (id) VALUES (?) " +
-                    "ON CONFLICT (id) DO NOTHING";
-            String insertCharacterSQL = "INSERT INTO character (id) VALUES (?) " +
+            String insertUserSQL = "INSERT INTO User (id, username, readname) VALUES (?, ?, ?) " +
                     "ON CONFLICT (id) DO NOTHING";
 
-            try (PreparedStatement memberStatement = connection.prepareStatement(insertMemberSQL);
-                 PreparedStatement levelingStatement = connection.prepareStatement(insertLevelingSQL);
-                 PreparedStatement rpgStatement = connection.prepareStatement(insertRPGSQL);
-                 PreparedStatement locationStatement = connection.prepareStatement(insertLocationSQL);
-                 PreparedStatement characterStatement = connection.prepareStatement(insertCharacterSQL)) {
+            try (PreparedStatement userStatement = connection.prepareStatement(insertUserSQL);) {
 
                 for (var member : members) {
                     if (!member.getUser().isBot()) {
@@ -116,30 +100,14 @@ public class PostgreSQLConnection extends ListenerAdapter {
                         String username = member.getUser().getName();
                         String readname = member.getEffectiveName();
 
-                        memberStatement.setLong(1, memberId);
-                        memberStatement.setString(2, username);
-                        memberStatement.setString(3, readname);
-                        memberStatement.addBatch();
-
-                        levelingStatement.setLong(1, memberId);
-                        levelingStatement.addBatch();
-
-                        rpgStatement.setLong(1, memberId);
-                        rpgStatement.addBatch();
-
-                        locationStatement.setLong(1, memberId);
-                        locationStatement.addBatch();
-
-                        characterStatement.setLong(1, memberId);
-                        characterStatement.addBatch();
+                        userStatement.setLong(1, memberId);
+                        userStatement.setString(2, username);
+                        userStatement.setString(3, readname);
+                        userStatement.addBatch();
                     }
                 }
 
-                memberStatement.executeBatch();
-                levelingStatement.executeBatch();
-                locationStatement.executeBatch();
-                rpgStatement.executeBatch();
-                characterStatement.executeBatch();
+                userStatement.executeBatch();
 
                 System.out.println(LogConstants.I + "Members added to the database for guild: " + guild.getName());
             } catch (SQLException e) {
@@ -163,63 +131,23 @@ public class PostgreSQLConnection extends ListenerAdapter {
     }
 
     /*
-     * This method returns the SQL query to create the Member table.
+     * This method returns the SQL query to create the User table.
      */
-    public String memberTable() {
-        return "CREATE TABLE IF NOT EXISTS Member ("
+    public String userTable() {
+        return "CREATE TABLE IF NOT EXISTS User ("
                 + "id BIGINT PRIMARY KEY, "
                 + "username VARCHAR(255), "
-                + "readname VARCHAR(255)"
-                + ")";
-    }
-
-    /*
-     * This method returns the SQL query to create the leveling table.
-     */
-    public String levelingTable() {
-        return "CREATE TABLE IF NOT EXISTS leveling ("
-                + "id BIGINT PRIMARY KEY , "
-                + "FOREIGN KEY (id) REFERENCES Member(id) , "
+                + "readname VARCHAR(255), "
+                + "age INT DEFAULT 0, "
+                + "species VARCHAR(255) DEFAULT '', "
+                + "profession VARCHAR(255) DEFAULT 'Citizen', "
                 + "level INT DEFAULT 0, "
-                + "xp BIGINT DEFAULT 0 "
-                + ")";
-    }
-
-    /*
-     * This method returns the SQL query to create the RPG table.
-     */
-    public String rPGTable() {
-        return "CREATE TABLE IF NOT EXISTS RPG ("
-                + "id BIGINT PRIMARY KEY , "
-                + "FOREIGN KEY (id) REFERENCES Member(id) , "
-                + "credits BIGINT DEFAULT 0 , "
-                + "dailycredits BOOL DEFAULT FALSE , "
-                + "effect VARCHAR(255) DEFAULT 'none' "
-                + ")";
-    }
-
-    /*
-     * This method returns the SQL query to create the location table.
-     */
-    public String locationTable() {
-        return "CREATE TABLE IF NOT EXISTS location ("
-                + "id BIGINT PRIMARY KEY , "
-                + "FOREIGN KEY (id) REFERENCES Member(id) , "
-                + "location VARCHAR(255) DEFAULT 'Orion Space Station' "
-                + ")";
-    }
-
-    /*
-     * This method returns the SQL query to create the character table.
-     */
-    public String characterTable() {
-        return "CREATE TABLE IF NOT EXISTS character ("
-                + "id BIGINT PRIMARY KEY , "
-                + "FOREIGN KEY (id) REFERENCES Member(id) , "
-                + "name VARCHAR(255) DEFAULT '' , "
-                + "age INT DEFAULT 0 , "
-                + "race VARCHAR(255) DEFAULT '' , "
-                + "class VARCHAR(255) DEFAULT '' "
+                + "xp BIGINT DEFAULT 0, "
+                + "location VARCHAR(255) DEFAULT 'Orion Space Station', "
+                + "shipassignment VARCHAR(255) DEFAULT 'None', "
+                + "status VARCHAR(255) DEFAULT 'None', "
+                + "credits BIGINT DEFAULT 0, "
+                + "dailycredits BOOL DEFAULT FALSE, "
                 + ")";
     }
 }
