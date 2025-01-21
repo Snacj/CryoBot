@@ -86,28 +86,28 @@ public class PostgreSQLConnection extends ListenerAdapter {
      * This method initializes the database with the necessary tables and data.
      */
     public void initDB(@NotNull GuildReadyEvent event) {
-        createTableIfNotExists(userTable());
+        createTableIfNotExists(MemberTable());
 
         event.getJDA().getGuilds().forEach(guild -> guild.loadMembers().onSuccess(members -> {
-            String insertUserSQL = "INSERT INTO User (id, username, readname) VALUES (?, ?, ?) " +
+            String insertMemberSQL = "INSERT INTO Member (id, username, readname) VALUES (?, ?, ?) " +
                     "ON CONFLICT (id) DO NOTHING";
 
-            try (PreparedStatement userStatement = connection.prepareStatement(insertUserSQL);) {
+            try (PreparedStatement MemberStatement = connection.prepareStatement(insertMemberSQL);) {
 
                 for (var member : members) {
                     if (!member.getUser().isBot()) {
                         long memberId =  member.getIdLong();
-                        String username = member.getUser().getName();
+                        String Membername = member.getUser().getName();
                         String readname = member.getEffectiveName();
 
-                        userStatement.setLong(1, memberId);
-                        userStatement.setString(2, username);
-                        userStatement.setString(3, readname);
-                        userStatement.addBatch();
+                        MemberStatement.setLong(1, memberId);
+                        MemberStatement.setString(2, Membername);
+                        MemberStatement.setString(3, readname);
+                        MemberStatement.addBatch();
                     }
                 }
 
-                userStatement.executeBatch();
+                MemberStatement.executeBatch();
 
                 System.out.println(LogConstants.I + "Members added to the database for guild: " + guild.getName());
             } catch (SQLException e) {
@@ -131,10 +131,10 @@ public class PostgreSQLConnection extends ListenerAdapter {
     }
 
     /*
-     * This method returns the SQL query to create the User table.
+     * This method returns the SQL query to create the Member table.
      */
-    public String userTable() {
-        return "CREATE TABLE IF NOT EXISTS User ("
+    public String MemberTable() {
+        return "CREATE TABLE IF NOT EXISTS Member ("
                 + "id BIGINT PRIMARY KEY, "
                 + "username VARCHAR(255), "
                 + "readname VARCHAR(255), "
@@ -147,7 +147,7 @@ public class PostgreSQLConnection extends ListenerAdapter {
                 + "shipassignment VARCHAR(255) DEFAULT 'None', "
                 + "status VARCHAR(255) DEFAULT 'None', "
                 + "credits BIGINT DEFAULT 0, "
-                + "dailycredits BOOL DEFAULT FALSE, "
+                + "dailycredits BOOL DEFAULT FALSE"
                 + ")";
     }
 }

@@ -9,22 +9,22 @@ import java.awt.*;
 
 /**
  * This class is responsible for handling the my character command.
- * It allows the user to see their character.
+ * It allows the Member to see their character.
  */
 public class MyCharacterCommand {
     static PostgreUtil dbUtil = new PostgreUtil();
     /**
      * This method executes the my character command.
-     * It allows the user to see their character.
+     * It allows the Member to see their character.
      * @param event
      */
     public static void execute (SlashCommandInteractionEvent event){
         Member member = event.getMember();
         if(member == null) return;
-        long userId = member.getIdLong();
+        long MemberId = member.getIdLong();
 
         String[] character;
-        character = dbUtil.getCharacterFromUser(userId);
+        character = dbUtil.getCharacterFromMember(MemberId);
         long id = Long.parseLong(character[0]);
         String name = character[1];
         int age = Integer.parseInt(character[2]);

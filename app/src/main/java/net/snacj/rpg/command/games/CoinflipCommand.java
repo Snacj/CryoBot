@@ -9,21 +9,21 @@ import java.util.Objects;
 
 /**
  * This class is responsible for handling the coinflip command.
- * It allows the user to play a coinflip game.
+ * It allows the Member to play a coinflip game.
  */
 public class CoinflipCommand {
     static PostgreUtil dbUtil = new PostgreUtil();
 
     /**
      * This method executes the coinflip command.
-     * It allows the user to play a coinflip game.
+     * It allows the Member to play a coinflip game.
      * @param event
      */
     public static void execute (SlashCommandInteractionEvent event) {
         Member member = event.getMember();
         assert member != null;
-        long userId = member.getIdLong();
-        long currentCredits = dbUtil.getCreditsFromUser(userId);
+        long MemberId = member.getIdLong();
+        long currentCredits = dbUtil.getCreditsFromMember(MemberId);
         int rand = (int)(Math.random() * 2);
         String seite = "";
         int wonCredits;
@@ -42,12 +42,12 @@ public class CoinflipCommand {
             event.reply("You dont have enough credits!").queue();
         } else if (choice.equalsIgnoreCase(seite)) {
             wonCredits = bet;
-            dbUtil.updateUserCredits(userId, wonCredits);
-            event.reply("You win! \nCurrent Credits -> " + dbUtil.getCreditsFromUser(userId) + " Credits.").queue();
+            dbUtil.updateMemberCredits(MemberId, wonCredits);
+            event.reply("You win! \nCurrent Credits -> " + dbUtil.getCreditsFromMember(MemberId) + " Credits.").queue();
         } else {
             wonCredits = bet - (bet * 2);
-            dbUtil.updateUserCredits(userId, wonCredits);
-            event.reply("You lost! \nCurrent Credits -> " + dbUtil.getCreditsFromUser(userId) + " Credits.").queue();
+            dbUtil.updateMemberCredits(MemberId, wonCredits);
+            event.reply("You lost! \nCurrent Credits -> " + dbUtil.getCreditsFromMember(MemberId) + " Credits.").queue();
         }
     }
 }

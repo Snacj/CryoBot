@@ -22,6 +22,8 @@ public class MyBot {
     private static JDA jda;
     public static void main(String[] args) {
 
+        System.out.println(System.getProperty(LogConstants.I + "java.class.path"));
+
         Dotenv dotenv = Dotenv.load();
         String BOT_TOKEN = dotenv.get("BOT_TOKEN");
 

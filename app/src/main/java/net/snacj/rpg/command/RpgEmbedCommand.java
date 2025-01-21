@@ -9,12 +9,12 @@ import java.awt.*;
 
 /**
  * This class is responsible for handling the rpg embed command.
- * It allows the user to see the rpg embed.
+ * It allows the Member to see the rpg embed.
  */
 public class RpgEmbedCommand {
     /**
      * This method executes the rpg embed command.
-     * It allows the user to see the rpg embed.
+     * It allows the Member to see the rpg embed.
      * @param event
      */
     public static void execute(SlashCommandInteractionEvent event) {

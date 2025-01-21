@@ -15,14 +15,14 @@ public class PostgreUtil {
     Connection connection = dbConnection.getConnection();
 
     /*
-     * This method updates the level of a user in the database.
+     * This method updates the level of a Member in the database.
      */
-    public void updateUserLevel(Long userId, int level) {
-        System.out.println(LogConstants.I + "Executing update for user ID: " + userId + " with level " + level);
-        String updateSQL = "UPDATE User SET level = ? WHERE id = ?";
+    public void updateMemberLevel(Long MemberId, int level) {
+        System.out.println(LogConstants.I + "Executing update for Member ID: " + MemberId + " with level " + level);
+        String updateSQL = "UPDATE Member SET level = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
             preparedStatement.setInt(1, level);
-            preparedStatement.setLong(2, userId);
+            preparedStatement.setLong(2, MemberId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -30,14 +30,14 @@ public class PostgreUtil {
     }
 
     /*
-     * This method updates the experience points of a user in the database.
+     * This method updates the experience points of a Member in the database.
      */
-    public void updateUserTime(Long userId, long seconds) {
-        System.out.println(LogConstants.I + "Executing update for user ID: " + userId + " with " + seconds + " seconds.");
-        String updateSQL = "UPDATE User SET xp = xp + ? WHERE id = ?";
+    public void updateMemberTime(Long MemberId, long seconds) {
+        System.out.println(LogConstants.I + "Executing update for Member ID: " + MemberId + " with " + seconds + " seconds.");
+        String updateSQL = "UPDATE Member SET xp = xp + ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
             preparedStatement.setLong(1, seconds);
-            preparedStatement.setLong(2, userId);
+            preparedStatement.setLong(2, MemberId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -45,14 +45,14 @@ public class PostgreUtil {
     }
 
     /*
-     * This method updates the credits of a user in the database.
+     * This method updates the credits of a Member in the database.
      */
-    public void updateUserCredits(Long userId, long credits) {
-        System.out.println(LogConstants.I + "Executing update for user ID: " + userId + " with " + credits + " credits.");
-        String updateSQL = "UPDATE User SET credits = credits + ? WHERE id = ?";
+    public void updateMemberCredits(Long MemberId, long credits) {
+        System.out.println(LogConstants.I + "Executing update for Member ID: " + MemberId + " with " + credits + " credits.");
+        String updateSQL = "UPDATE Member SET credits = credits + ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
             preparedStatement.setLong(1, credits);
-            preparedStatement.setLong(2, userId);
+            preparedStatement.setLong(2, MemberId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -60,14 +60,14 @@ public class PostgreUtil {
     }
 
     /*
-     * This method updates the location of a user in the database.
+     * This method updates the location of a Member in the database.
      */
-    public void updateUserLocation(Long userId, String location) {
-        System.out.println(LogConstants.I + "Executing update for user ID: " + userId + " with " + location);
+    public void updateMemberLocation(Long MemberId, String location) {
+        System.out.println(LogConstants.I + "Executing update for Member ID: " + MemberId + " with " + location);
         String updateSQL = "UPDATE location SET location = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
             preparedStatement.setString(1, location);
-            preparedStatement.setLong(2, userId);
+            preparedStatement.setLong(2, MemberId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,14 +75,14 @@ public class PostgreUtil {
     }
 
     /*
-     * This method updates the effect of a user in the database.
+     * This method updates the effect of a Member in the database.
      */
-    public void updateUserEffect(Long userId, String status) {
-        System.out.println(LogConstants.I + "Executing update for user ID: " + userId + " with " + status);
-        String updateSQL = "UPDATE User SET effect = ? WHERE id = ?";
+    public void updateMemberEffect(Long MemberId, String status) {
+        System.out.println(LogConstants.I + "Executing update for Member ID: " + MemberId + " with " + status);
+        String updateSQL = "UPDATE Member SET effect = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
             preparedStatement.setString(1, status);
-            preparedStatement.setLong(2, userId);
+            preparedStatement.setLong(2, MemberId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,13 +90,13 @@ public class PostgreUtil {
     }
 
     /*
-     * This method updates the daily credits of a user in the database.
+     * This method updates the daily credits of a Member in the database.
      */
-    public void updateDailyCredits(Long userId) {
-        System.out.println(LogConstants.I + "Executing update for user ID: " + userId);
+    public void updateDailyCredits(Long MemberId) {
+        System.out.println(LogConstants.I + "Executing update for Member ID: " + MemberId);
         String updateSQL = "UPDATE Use SET dailycredits = TRUE WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
-            preparedStatement.setLong(1, userId);
+            preparedStatement.setLong(1, MemberId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -104,14 +104,14 @@ public class PostgreUtil {
     }
 
     /*
-     * This method retrieves the experience points of a user from the database.
+     * This method retrieves the experience points of a Member from the database.
      */
-    public long getXpFromUser(long userId) {
+    public long getXpFromMember(long MemberId) {
         long xp = -1;
-        String selectSQL = "SELECT xp FROM User WHERE id = ?";
+        String selectSQL = "SELECT xp FROM Member WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
-            preparedStatement.setLong(1, userId);
+            preparedStatement.setLong(1, MemberId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     xp = resultSet.getInt("xp");
@@ -124,14 +124,14 @@ public class PostgreUtil {
     }
 
     /*
-     * This method retrieves the credits of a user from the database.
+     * This method retrieves the credits of a Member from the database.
      */
-    public long getCreditsFromUser(long userId) {
+    public long getCreditsFromMember(long MemberId) {
         long credits = -1;
-        String selectSQL = "SELECT credits FROM User WHERE id = ?";
+        String selectSQL = "SELECT credits FROM Member WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
-            preparedStatement.setLong(1, userId);
+            preparedStatement.setLong(1, MemberId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     credits = resultSet.getInt("credits");
@@ -144,14 +144,14 @@ public class PostgreUtil {
     }
 
     /*
-     * This method retrieves the location of a user from the database.
+     * This method retrieves the location of a Member from the database.
      */
-    public String getLocationFromUser(long userId) {
+    public String getLocationFromMember(long MemberId) {
         String location = "-1";
-        String selectSQL = "SELECT location FROM User WHERE id = ?";
+        String selectSQL = "SELECT location FROM Member WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
-            preparedStatement.setLong(1, userId);
+            preparedStatement.setLong(1, MemberId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     location = resultSet.getString("location");
@@ -164,14 +164,14 @@ public class PostgreUtil {
     }
 
     /*
-     * This method retrieves the effect of a user from the database.
+     * This method retrieves the effect of a Member from the database.
      */
-    public String getEffectFromUser(long userId) {
+    public String getEffectFromMember(long MemberId) {
         String status = "-1";
-        String selectSQL = "SELECT status FROM User WHERE id = ?";
+        String selectSQL = "SELECT status FROM Member WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
-            preparedStatement.setLong(1, userId);
+            preparedStatement.setLong(1, MemberId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     status = resultSet.getString("status");
@@ -184,14 +184,14 @@ public class PostgreUtil {
     }
 
     /*
-     * This method retrieves the daily credits of a user from the database.
+     * This method retrieves the daily credits of a Member from the database.
      */
-    public boolean getDailyCreditsFromUser(long userId) {
+    public boolean getDailyCreditsFromMember(long MemberId) {
         boolean dailyCredits = false;
-        String selectSQL = "SELECT dailycredits FROM RPG WHERE id = ?";
+        String selectSQL = "SELECT dailycredits FROM Member WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
-            preparedStatement.setLong(1, userId);
+            preparedStatement.setLong(1, MemberId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     dailyCredits = resultSet.getBoolean("dailycredits");
@@ -204,9 +204,9 @@ public class PostgreUtil {
     }
 
     /*
-     * This method retrieves the character of a user from the database.
+     * This method retrieves the character of a Member from the database.
      */
-    public String[] getCharacterFromUser(long userId){
+    public String[] getCharacterFromMember(long MemberId){
         String[] character = {"", "", "", "", ""};
         String id;
         String name;
@@ -218,10 +218,10 @@ public class PostgreUtil {
         String shipAssignment;
         String location;
 
-        String selectSQL = "SELECT * FROM User WHERE id = ?";
+        String selectSQL = "SELECT * FROM Member WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
-            preparedStatement.setLong(1, userId);
+            preparedStatement.setLong(1, MemberId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     id = resultSet.getString("id");
@@ -252,11 +252,11 @@ public class PostgreUtil {
     }
 
     /*
-     * This method resets the location of all users in the database.
+     * This method resets the location of all Members in the database.
      */
-    public void resetUserLocation() {
-        System.out.println(LogConstants.I + "Executing update for all users");
-        String updateSQL = "UPDATE User SET location = 'Orion Space Station'";
+    public void resetMemberLocation() {
+        System.out.println(LogConstants.I + "Executing update for all Members");
+        String updateSQL = "UPDATE Member SET location = 'Orion Space Station'";
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -268,8 +268,8 @@ public class PostgreUtil {
      * This method resets the daily credits boolean to false.
      */
     public void resetDailyCredits() {
-        System.out.println(LogConstants.I + "Executing update for all users");
-        String updateSQL = "UPDATE User SET dailycredits = false";
+        System.out.println(LogConstants.I + "Executing update for all Members");
+        String updateSQL = "UPDATE Member SET dailycredits = false";
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

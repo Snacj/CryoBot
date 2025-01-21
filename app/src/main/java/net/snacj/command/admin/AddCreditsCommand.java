@@ -22,7 +22,7 @@ public class AddCreditsCommand {
             long userId = chosenMember.getIdLong();
             int credits = Objects.requireNonNull(event.getOption("credits")).getAsInt();
 
-            dbUtil.updateUserCredits(userId, credits);
+            dbUtil.updateMemberCredits(userId, credits);
 
             event.reply(credits + " Universal Credits added to member: " + chosenMember.getUser().getName()).setEphemeral(true).queue();
         } else {
