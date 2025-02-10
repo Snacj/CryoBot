@@ -13,11 +13,6 @@ import java.util.Objects;
 public class ChangeLocationCommand {
     static PostgreUtil dbUtil = new PostgreUtil();
 
-    /**
-     * This method executes the change location command.
-     * It allows the Member to change their location.
-     * @param event
-     */
     public static void execute(SlashCommandInteractionEvent event) {
         Member member = event.getMember();
         if (member == null) return;

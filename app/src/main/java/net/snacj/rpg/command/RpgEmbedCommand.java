@@ -29,7 +29,7 @@ public class RpgEmbedCommand {
             embedBuilder.setThumbnail("https://thumbs.dreamstime.com/b/fantasy-space-station-generative-ai-high-quality-illustration-fantasy-space-station-generative-ai-284593955.jpg");
             embedBuilder.setColor(Color.GREEN);
             embedBuilder.setFooter("Powered by Snacj.com");
-            embedBuilder.setDescription("This is Snacj's World, a RPG game inside of Discord.");
+            embedBuilder.setDescription("This is Snacj's World, a Space themed RPG game inside of Discord.");
             event.deferReply().queue(hook -> {
                 hook.editOriginalEmbeds(embedBuilder.build()).queue();
             });

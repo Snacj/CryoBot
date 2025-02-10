@@ -39,15 +39,7 @@ public class CreditsHandler {
             Duration duration = Duration.between(startTime, Instant.now());
             long credits = duration.toMinutes();
             System.out.println(LogConstants.I + "User ID: " + userId + " earned " + credits + " credits.");
-            dbUtil.updateUserCredits(userId, credits);
+            dbUtil.updateMemberCredits(userId, credits);
         }
-    }
-
-    /*
-     * This method rewards users with daily credits.
-     */
-    public void dailyCredits (Member member) {
-        long userId = member.getIdLong();
-
     }
 }

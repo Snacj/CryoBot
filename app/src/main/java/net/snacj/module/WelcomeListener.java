@@ -9,12 +9,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
  * It sends a welcome message to the system channel.
  */
 public class WelcomeListener extends ListenerAdapter {
-    /**
-     * This method is called when a new member joins the server.
-     * It sends a welcome message to the system channel.
-     *
-     * @param event
-     */
     @Override
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {
         TextChannel channel = event.getGuild().getSystemChannel();

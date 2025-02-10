@@ -13,10 +13,6 @@ import java.util.concurrent.TimeUnit;
 public class Scheduler {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-    /**
-     * This method schedules a task to run daily.
-     * @param task
-     */
     public void scheduleDailyTask(Runnable task) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime nextRun = now.with(LocalTime.MIDNIGHT);
@@ -31,9 +27,6 @@ public class Scheduler {
 
     }
 
-    /**
-     * This method shuts down the scheduler.
-     */
     public void shutdown() {
         scheduler.shutdown();
     }

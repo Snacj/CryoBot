@@ -12,13 +12,16 @@ import java.util.Objects;
  */
 
 public class AddCreditsCommand {
+    // Get instance of PostgreUtil to manipulate the database
     static PostgreUtil dbUtil = new PostgreUtil();
+
     public static void execute (SlashCommandInteractionEvent event) {
-        Member member = event.getMember();
-        assert member != null;
+
+        Member member = Objects.requireNonNull(event.getMember());
+        
+        // Check if user is administrator
         if(member.hasPermission(Permission.ADMINISTRATOR)){
             Member chosenMember = Objects.requireNonNull(event.getOption("user")).getAsMember();
-            assert chosenMember != null;
             long userId = chosenMember.getIdLong();
             int credits = Objects.requireNonNull(event.getOption("credits")).getAsInt();
 

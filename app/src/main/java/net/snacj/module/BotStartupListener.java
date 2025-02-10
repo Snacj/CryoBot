@@ -1,6 +1,5 @@
 package net.snacj.module;
 
-
 import net.snacj.db.PostgreSQLConnection;
 import net.snacj.db.PostgreUtil;
 import net.dv8tion.jda.api.entities.Guild;
@@ -22,7 +21,7 @@ public class BotStartupListener extends ListenerAdapter {
     static PostgreUtil dbUtil = new PostgreUtil();
 
     /*
-     * This method is called when the guild is ready.
+     * is called when the guild is ready.
      * It initializes the database and sets up the scheduler.
      */
     @Override
@@ -50,22 +49,22 @@ public class BotStartupListener extends ListenerAdapter {
     }
 
     /*
-     * This method resets the user location and daily credits.
+     * resets the user location and daily credits.
      */
-    public static void daily () {
-        dbUtil.resetUserLocation();
+    public static void daily() {
+        dbUtil.resetMemberLocation();
         dbUtil.resetDailyCredits();
     }
 
     /*
-     * This method returns the guild.
+     * returns the guild.
      */
     public static Guild getGuild() {
         return guild;
     }
 
     /*
-     * This method returns the guildIdFuture.
+     * returns the guildIdFuture.
      */
     public static CompletableFuture<String> getGuildIdFuture() {
         return guildIdFuture;

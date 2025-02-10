@@ -14,11 +14,6 @@ import java.util.Objects;
 public class CoinflipCommand {
     static PostgreUtil dbUtil = new PostgreUtil();
 
-    /**
-     * This method executes the coinflip command.
-     * It allows the Member to play a coinflip game.
-     * @param event
-     */
     public static void execute (SlashCommandInteractionEvent event) {
         Member member = event.getMember();
         assert member != null;

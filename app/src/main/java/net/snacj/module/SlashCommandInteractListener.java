@@ -1,6 +1,5 @@
 package net.snacj.module;
 
-import net.snacj.command.IsoldeCommand;
 import net.snacj.command.admin.AddCreditsCommand;
 import net.snacj.rpg.command.RpgEmbedCommand;
 import net.snacj.rpg.command.buy.BuyDrinkOrFoodCommand;
@@ -20,10 +19,6 @@ import org.jetbrains.annotations.NotNull;
  * It executes the appropriate command based on the command name.
  */
 public class SlashCommandInteractListener extends ListenerAdapter {
-    /*
-     * This method is called when a slash command is interacted with.
-     * It executes the appropriate command based on the command name.
-     */
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         switch (event.getName().toLowerCase()) {
@@ -31,7 +26,6 @@ public class SlashCommandInteractListener extends ListenerAdapter {
             case "mycredits" -> MyCreditsCommand.execute(event);
             case "coinflip" -> CoinflipCommand.execute(event);
             case "addcredits" -> AddCreditsCommand.execute(event);
-            case "isolde" -> IsoldeCommand.execute(event);
             case "changelocation" -> ChangeLocationCommand.execute(event);
             case "whereami" -> WhereAmICommand.execute(event);
             case "buy" -> BuyDrinkOrFoodCommand.execute(event);

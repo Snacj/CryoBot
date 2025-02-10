@@ -10,12 +10,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
  */
 public class MyCreditsCommand {
     static PostgreUtil dbUtil = new PostgreUtil();
-    /**
-     * This method executes the my credits command.
-     * It allows the Member to see their credits.
-     * @param event
-     */
-    public static void execute (SlashCommandInteractionEvent event) {
+
+    public static void execute(SlashCommandInteractionEvent event) {
         Member member = event.getMember();
         assert member != null;
         long MemberId = member.getIdLong();

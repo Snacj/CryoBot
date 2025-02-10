@@ -16,19 +16,16 @@ public class BuyDrinkOrFoodCommand {
     static PostgreUtil dbUtil = new PostgreUtil();
     static EffectHandler effectHandler = new EffectHandler();
     static String effect = "";
-    /**
-     * This method executes the buy drink or food command.
-     * It allows the Member to buy drinks or food at the bar.
-     * @param event
-     */
-    public static void execute (SlashCommandInteractionEvent event) {
+
+    public static void execute(SlashCommandInteractionEvent event) {
         Member member = event.getMember();
-        if(member == null) return;
+        if (member == null)
+            return;
         long MemberId = member.getIdLong();
         String location = dbUtil.getLocationFromMember(MemberId);
         long credits = dbUtil.getCreditsFromMember(MemberId);
 
-        if(!location.equalsIgnoreCase("Bar")) {
+        if (!location.equalsIgnoreCase("Bar")) {
             event.reply("You have to go to the Bar to buy food or drinks!").queue();
             return;
         }

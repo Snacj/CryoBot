@@ -12,7 +12,8 @@ import net.snacj.util.LogConstants;
 
 /**
  * This class listens for voice channel events.
- * It starts and stops the count for XP and credits when a user joins or leaves a channel.
+ * It starts and stops the count for XP and credits when a user joins or leaves
+ * a channel.
  */
 public class VoiceChannelListener extends ListenerAdapter {
     XpHandler xpHandler = new XpHandler();
@@ -20,33 +21,29 @@ public class VoiceChannelListener extends ListenerAdapter {
     CreditsHandler creditsHandler = new CreditsHandler();
     PostgreUtil dbUtil = new PostgreUtil();
 
-    /**
-     * This method is called when a user joins or leaves a voice channel.
-     * It starts and stops the count for XP and credits.
-     *
-     * @param event
-     */
     @Override
     public void onGuildVoiceUpdate(GuildVoiceUpdateEvent event) {
         Member member = event.getEntity();
         long userId = member.getIdLong();
         AudioChannelUnion channelJoined = event.getChannelJoined();
         AudioChannelUnion channelLeft = event.getChannelLeft();
-        //Someone joined a channel
-        if (channelJoined != null && channelLeft == null){
-            System.out.println(LogConstants.I + member.getUser().getName() + " joined audio channel: " + channelJoined.getName());
+        // Someone joined a channel
+        if (channelJoined != null && channelLeft == null) {
+            System.out.println(
+                    LogConstants.I + member.getUser().getName() + " joined audio channel: " + channelJoined.getName());
             xpHandler.startCount(member);
             creditsHandler.startCount(member);
-            levelHandler.convert(member, dbUtil.getXpFromUser(userId));
+            levelHandler.convert(member, dbUtil.getXpFromMember(userId));
         }
-        //Someone left a channel
-        if (channelJoined == null && channelLeft != null){
-            System.out.println(LogConstants.I + member.getUser().getName() + " left audio channel: " + channelLeft.getName());
+        // Someone left a channel
+        if (channelJoined == null && channelLeft != null) {
+            System.out.println(
+                    LogConstants.I + member.getUser().getName() + " left audio channel: " + channelLeft.getName());
             xpHandler.stopCount(member);
             creditsHandler.stopCount(member);
         }
-        //Someone switched channels
-        if (channelJoined != null && channelLeft != null){
+        // Someone switched channels
+        if (channelJoined != null && channelLeft != null) {
             System.out.println(LogConstants.I + member.getUser().getName() + " moved between audio channels: "
                     + channelLeft.getName() + " -> " + channelJoined.getName());
         }

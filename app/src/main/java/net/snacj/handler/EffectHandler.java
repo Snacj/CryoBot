@@ -15,9 +15,10 @@ public class EffectHandler {
     PostgreUtil dbUtil = new PostgreUtil();
 
     /*
-     * This method schedules the removal of an effect after a certain amount of time.
+     * schedules the removal of an effect after a certain amount of
+     * time.
      */
-    public void scheduleExecution(long delay, TimeUnit timeUnit, long userId){
+    public void scheduleExecution(long delay, TimeUnit timeUnit, long userId) {
         System.out.println(LogConstants.K + "waiting for " + delay + " minutes...");
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.schedule(() -> {
@@ -27,9 +28,9 @@ public class EffectHandler {
     }
 
     /*
-     * This method removes the effect from the user.
+     * removes the effect from the user.
      */
     public void removeEffect(long userId) {
-        dbUtil.updateUserEffect(userId, "none");
+        dbUtil.updateMemberEffect(userId, "none");
     }
 }

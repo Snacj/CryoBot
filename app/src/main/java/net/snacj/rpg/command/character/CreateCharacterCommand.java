@@ -14,14 +14,11 @@ import java.util.Objects;
  */
 public class CreateCharacterCommand {
     static PostgreUtil dbUtil = new PostgreUtil();
-    /**
-     * This method executes the create character command.
-     * It allows the Member to create a character.
-     * @param event
-     */
+
     public static void execute (SlashCommandInteractionEvent event) {
         Member member = event.getMember();
         if(member == null) return;
+
         long MemberId = member.getIdLong();
         String name = Objects.requireNonNull(event.getOption("name")).getAsString();
         int age = Objects.requireNonNull(event.getOption("age")).getAsInt();

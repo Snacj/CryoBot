@@ -7,13 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import net.snacj.util.LogConstants;
 
 import java.sql.*;
-/*
- * This class is responsible for establishing a connection to the PostgreSQL database.
- * It also initializes the database with the necessary tables and data.
- * The class is a singleton, meaning that only one instance of the class can be created.
- */
 
 public class PostgreSQLConnection extends ListenerAdapter {
+    // get database credentials from .env file
     Dotenv dotenv = Dotenv.load();
     final String URL = dotenv.get("db_url");
     final String USERNAME = dotenv.get("db_user");
@@ -21,16 +17,10 @@ public class PostgreSQLConnection extends ListenerAdapter {
     private Connection connection;
     private static PostgreSQLConnection instance;
 
-    /*
-     * The constructor initializes the connection to the PostgreSQL database.
-     */
     private PostgreSQLConnection() {
         initialize();
     }
 
-    /*
-     * This method initializes the connection to the PostgreSQL database.
-     */
     private void initialize() {
         try {
             Class.forName("org.postgresql.Driver");
@@ -50,10 +40,6 @@ public class PostgreSQLConnection extends ListenerAdapter {
         }
     }
 
-    /*
-     * This method returns the instance of the PostgreSQLConnection class.
-     * If the instance is null, a new instance is created.
-     */
     public static PostgreSQLConnection getInstance() {
         if (instance == null) {
             instance = new PostgreSQLConnection();
@@ -61,16 +47,10 @@ public class PostgreSQLConnection extends ListenerAdapter {
         return instance;
     }
 
-    /*
-     * This method returns the connection to the PostgreSQL database.
-     */
     public Connection getConnection() {
         return connection;
     }
 
-    /*
-     * This method closes the connection to the PostgreSQL database.
-     */
     public void closeConnection() {
         try {
             if (connection != null && !connection.isClosed()) {
@@ -82,9 +62,6 @@ public class PostgreSQLConnection extends ListenerAdapter {
         }
     }
 
-    /*
-     * This method initializes the database with the necessary tables and data.
-     */
     public void initDB(@NotNull GuildReadyEvent event) {
         createTableIfNotExists(MemberTable());
 
@@ -119,9 +96,6 @@ public class PostgreSQLConnection extends ListenerAdapter {
         }));
     }
 
-    /*
-     * This method creates a table in the database if it does not already exist.
-     */
     public void createTableIfNotExists(String createTableSQL) {
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(createTableSQL);
@@ -130,8 +104,8 @@ public class PostgreSQLConnection extends ListenerAdapter {
         }
     }
 
-    /*
-     * This method returns the SQL query to create the Member table.
+    /**
+     * SQL queries
      */
     public String MemberTable() {
         return "CREATE TABLE IF NOT EXISTS Member ("
